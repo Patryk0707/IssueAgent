@@ -1,7 +1,7 @@
 import os
 from openai import OpenAI
 
-class Agent: 
+class agent: 
     def __init__(self):
         self.client = OpenAI(
         base_url="https://api.tokenfactory.nebius.com/v1/",
