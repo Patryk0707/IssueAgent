@@ -2,10 +2,9 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
-def send_status_email(subject, body_text):
+def send_status_email(receiver_email, subject, body_text):
     # 1. Setup email configuration
     sender_email = "issueagent007@gmail.com"
-    receiver_email = "issueagent007@gmail.com"
     app_password = "**** **** **** ****"  # Generated 16-character App Password
     
     # 2. Structure the message

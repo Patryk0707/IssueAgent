@@ -1,4 +1,5 @@
 from codeInput import codeInputToAgent
+import sendEmail
 
 
 def displayMenu():
@@ -11,3 +12,5 @@ def displayMenu():
         case "1":
             message = codeInputToAgent()
             print(message)
+            userEmail = input("Please enter your email >>>")
+            sendEmail.send_status_email(userEmail, 'subject', message)
