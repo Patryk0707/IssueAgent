@@ -5,8 +5,7 @@ class agent:
     def __init__(self):
         self.client = OpenAI(
         base_url="https://api.tokenfactory.nebius.com/v1/",
-        api_key=os.environ.get("API_KEY")
-        #api_key=os.environ.get("NEBIUS_API_KEY")
+        api_key=os.environ.get("NEBIUS_API_KEY")
 )
     
     def nebiusAgent(self,message):
