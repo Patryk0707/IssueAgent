@@ -26,7 +26,3 @@ def send_status_email(receiver_email, subject, body_text):
         print(f"Failed to send email: {e}")
 
     return 0
-
-
-
-

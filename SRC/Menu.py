@@ -4,8 +4,8 @@ from codeInput import codeInputToAgent
 from sendEmail import send_status_email
 from sendNotification import send_ntfy
 
-EMAIL_PATTERN = re.compile(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}$")
 
+EMAIL_PATTERN = re.compile(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}$")
 EMAIL_FILE = Path.home() / ".issueagent_email.txt"
 
 def isValidEmail(email):
@@ -61,9 +61,9 @@ def displayMenu():
                 body_text = body_text.strip()
 
                 send_ntfy(subject, body_text)
+
                 userEmail = getUserEmail()
                 if userEmail:
                     send_status_email(userEmail, subject, body_text)
                 else:
                     print("No email entered, email not sent.")
-
