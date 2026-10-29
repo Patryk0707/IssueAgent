@@ -11,11 +11,9 @@ def codeInputToAgent():
         if line=="END":
             break
     code="\n".join(lines)
-    
-
 
     message=f"""
-    Check for any errors with the code provided by the user. If there aren't any errors, say No errors. Otherwise provide them with what the issue was and what lines need to be replaced for the code to work.
+    Check for any errors with the code provided by the user."END" is the end of the code and not part of the code. In youe message the first line should be the short overview of the reesult containing the name of the error and the line number. It is used as a header for emails. If there aren't any errors, say No errors. Otherwise provide them with what the issue was and what lines need to be replaced for the code to work.
     Code:{code}
     """
     return agentObject.nebiusAgent(message)
