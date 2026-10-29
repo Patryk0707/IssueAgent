@@ -3,7 +3,6 @@ import sendEmail
 import sendNotification
 
 
-
 def displayMenu():
     choice = "0"
     while choice !="4":
@@ -11,6 +10,7 @@ def displayMenu():
 1.Enter code for the agent to check
 2.Enter repository for agent to check for issues
 3.Set agent to check repository for any issues
+4.Finish session
 >>>""")
         match choice:
             case "1":
