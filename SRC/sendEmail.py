@@ -1,18 +1,26 @@
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from email.header import Header
 
-def send_status_email(receiver_email, subject, body_text):
-    # 1. Setup email configuration
-    sender_email = "issueagent007@gmail.com"
-    app_password = "**** **** **** ****"  # Generated 16-character App Password
-    
+# 1. Setup email configuration
+import os
+sender_email = os.environ["SENDER_EMAIL"]
+app_password = os.environ["APP_PASSWORD"]
+
+def send_status_email(receiver_email, message):
+    # Первая строка сообщения - тема письма, остальное - тело
+    subject, _, body_text = message.strip().partition('\n')
+    subject = subject.strip()
+    body_text = body_text.strip()
+
+
     # 2. Structure the message
     msg = MIMEMultipart()
     msg['From'] = sender_email
     msg['To'] = receiver_email
-    msg['Subject'] = subject
-    msg.attach(MIMEText(body_text, 'plain'))
+    msg['Subject'] = Header(subject, 'utf-8')
+    msg.attach(MIMEText(body_text, 'plain', 'utf-8'))
     
     # 3. Connect to server and send
     try:
