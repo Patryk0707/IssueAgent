@@ -8,13 +8,7 @@ import os
 sender_email = os.environ["SENDER_EMAIL"]
 app_password = os.environ["APP_PASSWORD"]
 
-def send_status_email(receiver_email, message):
-    # First line of the message is the subject, everything after is the body
-    subject, _, body_text = message.strip().partition('\n')
-    subject = subject.strip()
-    body_text = body_text.strip()
-
-
+def send_status_email(receiver_email, subject, body_text):
     # Structure the message
     msg = MIMEMultipart()
     msg['From'] = sender_email
