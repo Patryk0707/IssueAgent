@@ -1,12 +1,18 @@
 import smtplib
+from pathlib import Path
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.header import Header
+import re
 
 # Set up email configuration
 import os
-sender_email = os.environ["SENDER_EMAIL"]
+sender_email = "issueagent007@gmail.com"
 app_password = os.environ["APP_PASSWORD"]
+
+EMAIL_PATTERN = re.compile(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}$")
+
+EMAIL_FILE = Path.home() / ".issueagent_email.txt"
 
 def send_status_email(receiver_email, message):
     # First line of the message is the subject, everything after is the body
@@ -34,5 +40,37 @@ def send_status_email(receiver_email, message):
     return 0
 
 
+
+def isValidEmail(email):
+    return bool(EMAIL_PATTERN.match(email))
+
+
+def loadSavedEmail():
+    try:
+        email = EMAIL_FILE.read_text(encoding="utf-8").strip()
+    except OSError:
+        return ""
+    return email if isValidEmail(email) else ""
+
+
+def saveEmail(email):
+    try:
+        EMAIL_FILE.write_text(email, encoding="utf-8")
+    except OSError as e:
+        print(f"Could not save email: {e}")
+
+
+def getUserEmail():
+    savedEmail = loadSavedEmail()
+    if savedEmail:
+        answer = input(f"Use saved email {savedEmail}? (Y/n) >>>").strip().lower()
+        if answer in ("", "y", "yes"):
+            return savedEmail
+    userEmail = input("Please enter your email (leave empty to skip) >>>").strip()
+    while userEmail and not isValidEmail(userEmail):
+        userEmail = input("Invalid email. Try again (leave empty to skip) >>>").strip()
+    if userEmail:
+        saveEmail(userEmail)
+    return userEmail
 
 

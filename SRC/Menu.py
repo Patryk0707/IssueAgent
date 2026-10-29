@@ -1,43 +1,6 @@
-import re
-from pathlib import Path
 from codeInput import codeInputToAgent
-from sendEmail import send_status_email
+import sendEmail
 
-EMAIL_PATTERN = re.compile(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}$")
-
-EMAIL_FILE = Path.home() / ".issueagent_email.txt"
-
-def isValidEmail(email):
-    return bool(EMAIL_PATTERN.match(email))
-
-
-def loadSavedEmail():
-    try:
-        email = EMAIL_FILE.read_text(encoding="utf-8").strip()
-    except OSError:
-        return ""
-    return email if isValidEmail(email) else ""
-
-
-def saveEmail(email):
-    try:
-        EMAIL_FILE.write_text(email, encoding="utf-8")
-    except OSError as e:
-        print(f"Could not save email: {e}")
-
-
-def getUserEmail():
-    savedEmail = loadSavedEmail()
-    if savedEmail:
-        answer = input(f"Use saved email {savedEmail}? (Y/n) >>>").strip().lower()
-        if answer in ("", "y", "yes"):
-            return savedEmail
-    userEmail = input("Please enter your email (leave empty to skip) >>>").strip()
-    while userEmail and not isValidEmail(userEmail):
-        userEmail = input("Invalid email. Try again (leave empty to skip) >>>").strip()
-    if userEmail:
-        saveEmail(userEmail)
-    return userEmail
 
 
 def displayMenu():
@@ -50,8 +13,8 @@ def displayMenu():
         case "1":
             message = codeInputToAgent()
             print(message)
-            userEmail = getUserEmail()
+            userEmail = sendEmail.getUserEmail()
             if userEmail:
-                send_status_email(userEmail, message)
+                sendEmail.send_status_email(userEmail, message)
             else:
                 print("No email entered, email not sent.")
