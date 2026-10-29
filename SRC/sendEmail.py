@@ -3,26 +3,26 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.header import Header
 
-# 1. Setup email configuration
+# Set up email configuration
 import os
 sender_email = os.environ["SENDER_EMAIL"]
 app_password = os.environ["APP_PASSWORD"]
 
 def send_status_email(receiver_email, message):
-    # Первая строка сообщения - тема письма, остальное - тело
+    # First line of the message is the subject, everything after is the body
     subject, _, body_text = message.strip().partition('\n')
     subject = subject.strip()
     body_text = body_text.strip()
 
 
-    # 2. Structure the message
+    # Structure the message
     msg = MIMEMultipart()
     msg['From'] = sender_email
     msg['To'] = receiver_email
     msg['Subject'] = Header(subject, 'utf-8')
     msg.attach(MIMEText(body_text, 'plain', 'utf-8'))
-    
-    # 3. Connect to server and send
+
+    # Connect to server and send
     try:
         with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
             server.login(sender_email, app_password)
