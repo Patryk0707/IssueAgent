@@ -2,6 +2,7 @@ import re
 from pathlib import Path
 from codeInput import codeInputToAgent
 from sendEmail import send_status_email
+from sendNotification import send_ntfy
 
 EMAIL_PATTERN = re.compile(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}$")
 
@@ -50,6 +51,7 @@ def displayMenu():
         case "1":
             message = codeInputToAgent()
             print(message)
+            send_ntfy('topic',message)
             userEmail = getUserEmail()
             if userEmail:
                 send_status_email(userEmail, message)
