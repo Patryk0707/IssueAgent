@@ -39,8 +39,8 @@ class Handler(BaseHTTPRequestHandler):
     def log_message(self, *a):
         pass
 
-
-def listen(port=5000):
+#sdajfhq"-qAD
+def listenForRepoUpdate(port=5000):
     print(f"Waiting for a webhook {port}. To stop: Ctrl+C")
     try:
         HTTPServer(("", port), Handler).serve_forever()

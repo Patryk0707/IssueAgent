@@ -2,7 +2,7 @@ from codeInput import codeInputToAgent
 import sendEmail
 import sendNotification
 import checkRepo
-from scanRepo import listen
+from scanRepo import listenForRepoUpdate
 
 
 def sendMessage(message):
@@ -39,7 +39,7 @@ def displayMenu():
                 sendMessage(message)
 
             case "3":
-                listen()
+                listenForRepoUpdate()
 
             case "4":
                 exit()
