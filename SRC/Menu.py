@@ -1,6 +1,7 @@
 from codeInput import codeInputToAgent
 import sendEmail
 import sendNotification
+import checkRepo
 
 
 def displayMenu():
@@ -16,16 +17,21 @@ def displayMenu():
             case "1":
                 message = codeInputToAgent()
                 print(message)
-
-                # First line of the message is the subject, everything after is the body
                 subject, _, body_text = message.strip().partition('\n')
                 subject = subject.strip()
                 body_text = body_text.strip()
-
                 sendNotification.send_ntfy(subject, body_text)
-
                 userEmail = sendEmail.getUserEmail()
                 if userEmail:
+                    # First line of the message is the subject, everything after is the body
                     sendEmail.send_status_email(userEmail, subject, body_text)
                 else:
                     print("No email entered, email not sent.")
+
+            case "2":
+                userRepo=input("Enter Repository for agent to check for issues: ")
+                message = checkRepo.checkRepoByCode(userRepo)
+                print(message)
+
+            case "4":
+                exit()

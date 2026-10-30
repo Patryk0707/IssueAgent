@@ -3,7 +3,7 @@ from Agent import agent
 agentObject=agent()
 
 def codeInputToAgent():
-    print("Enter code for the agent to check for errors")
+    print("Enter code for the agent to check for errors and type 'END' on a new line when finished entering code")
     lines=[]
     while True:
         line=input()
