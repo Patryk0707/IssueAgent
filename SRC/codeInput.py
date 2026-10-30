@@ -18,3 +18,23 @@ def codeInputToAgent():
     """
     return agentObject.nebiusAgent(message)
 
+def checkCodeApp(code):
+    message = f"""
+    Check for any errors with the code provided by the user.
+
+    In your message the first line should be the short overview of the result
+    containing the name of the error and the line number.
+
+    If there aren't any errors, say No errors.
+
+    Otherwise provide:
+    - what the issue is
+    - what lines are affected
+    - what lines should be replaced
+    - replacement code
+
+    Code:
+    {code}
+    """
+
+    return agentObject.nebiusAgent(message)
