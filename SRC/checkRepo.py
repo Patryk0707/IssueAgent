@@ -1,5 +1,5 @@
 from Agent import agent
-from gitingest import ingest #pip install gitingest
+from gitingest import ingest
 import contextlib
 from loguru import logger
 def checkRepoByCode(repo):
