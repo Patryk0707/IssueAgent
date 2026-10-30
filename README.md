@@ -1,5 +1,7 @@
 # IssueAgent
 
+This project is developed to help programmers check their programs for errors, tell them what it is and help fix it. It can check a single piece of code and a GitHub repository.
+
 
 ### Send email
 
