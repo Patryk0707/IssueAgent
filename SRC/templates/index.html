@@ -155,9 +155,45 @@
             white-space: pre-wrap;
             word-break: break-all;
         }
+        .send-panel {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px dashed var(--border-color);
+        }
+
+        .send-panel label.opt {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-right: 20px;
+            color: var(--text-muted);
+        }
+
+        .send-panel .form-group {
+            margin-top: 12px;
+        }
+
+        .send-status {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
     </style>
 </head>
 <body>
+
+    <!-- Reusable panel: send the shown result by email and/or notification -->
+    {% macro send_panel() %}
+    <div class="send-panel">
+        <label class="opt"><input type="checkbox" class="send-email-cb"> Email</label>
+        <label class="opt"><input type="checkbox" class="send-notif-cb"> Notification</label>
+        <div class="form-group">
+            <input type="text" class="send-email-input" value="{{ saved_email }}" placeholder="Your email (for email delivery)">
+        </div>
+        <button type="button" class="send-btn">Send Result</button>
+        <div class="send-status"></div>
+    </div>
+    {% endmacro %}
 
     <div class="container">
         <header>
@@ -188,6 +224,7 @@
             <div class="result-block" id="result-code">
                 <h3>🔍 Analysis Result</h3>
                 <pre>{{ result }}</pre>
+                {{ send_panel() }}
             </div>
             {% endif %}
         </div>
@@ -216,6 +253,7 @@
             <div class="result-block" id="result-repo">
                 <h3>🔍 Analysis Result</h3>
                 <pre>{{ result }}</pre>
+                {{ send_panel() }}
             </div>
             {% endif %}
         </div>
@@ -252,6 +290,30 @@
 
     <!-- Script for smooth scrolling to the result -->
     <script>
+        // Send the analysis result via the /send endpoint
+        document.querySelectorAll(".send-btn").forEach(function(btn) {
+            btn.addEventListener("click", function() {
+                const panel = btn.closest(".send-panel");
+                const status = panel.querySelector(".send-status");
+                const text = panel.closest(".result-block").querySelector("pre").textContent;
+                const payload = {
+                    text: text,
+                    email: panel.querySelector(".send-email-input").value,
+                    send_email: panel.querySelector(".send-email-cb").checked,
+                    send_notification: panel.querySelector(".send-notif-cb").checked
+                };
+                status.textContent = "Sending...";
+                fetch("/send", {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify(payload)
+                })
+                .then(function(r) { return r.json(); })
+                .then(function(d) { status.textContent = d.message; })
+                .catch(function() { status.textContent = "Request failed."; });
+            });
+        });
+
         document.addEventListener("DOMContentLoaded", function() {
             const resultElement = document.getElementById("result-code") || 
                                   document.getElementById("result-repo") || 

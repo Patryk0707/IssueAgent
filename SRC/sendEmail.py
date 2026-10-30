@@ -28,10 +28,10 @@ def send_status_email(receiver_email, subject, body_text):
             server.login(sender_email, app_password)
             server.sendmail(sender_email, receiver_email, msg.as_string())
         print("Email sent successfully!")
+        return True
     except Exception as e:
         print(f"Failed to send email: {e}")
-
-    return 0
+        return False
 
 
 def isValidEmail(email):
