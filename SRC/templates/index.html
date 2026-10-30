@@ -219,12 +219,43 @@
             </div>
             {% endif %}
         </div>
-    </div>
+
+        <!-- Monitor Repository Block -->
+        <div class="card">
+            <h2>🔔 Monitor Repository</h2>
+            <form method="POST">
+                <input type="hidden" name="action" value="monitor">
+                <div class="form-group">
+                    <label for="monitor-input" style="display: none;">GitHub repository URL to monitor</label>
+                    <input
+                        id="monitor-input"
+                        type="text"
+                        name="repo_to_monitor"
+                        value="{{ request.form.get('repo_to_monitor', '') }}"
+                        placeholder="e.g. https://github.com"
+                        required
+                    >
+                </div>
+                <button type="submit">Enable Live Monitoring</button>
+            </form>
+
+            <!-- Monitoring Setup Feedback -->
+            {% if result and request.form.get('action') == 'monitor' %}
+            <div class="result-block" id="result-monitor">
+                <h3>✅ Setup Status</h3>
+                <pre>{{ result }}</pre>
+            </div>
+            {% endif %}
+        </div>
+
+    </div> <!-- End of .container -->
 
     <!-- Script for smooth scrolling to the result -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            const resultElement = document.getElementById("result-code") || document.getElementById("result-repo");
+            const resultElement = document.getElementById("result-code") || 
+                                  document.getElementById("result-repo") || 
+                                  document.getElementById("result-monitor");
             if (resultElement) {
                 resultElement.scrollIntoView({ behavior: "smooth", block: "center" });
             }
@@ -232,3 +263,4 @@
     </script>
 
 </body>
+</html>
