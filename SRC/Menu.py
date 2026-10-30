@@ -4,6 +4,20 @@ import sendNotification
 import checkRepo
 
 
+def sendMessage(message):
+    print(message)
+    subject, _, body_text = message.strip().partition('\n')
+    subject = subject.strip()
+    body_text = body_text.strip()
+    sendNotification.send_ntfy(subject, body_text)
+    userEmail = sendEmail.getUserEmail()
+    if userEmail:
+        # First line of the message is the subject, everything after is the body
+        sendEmail.send_status_email(userEmail, subject, body_text)
+    else:
+        print("No email entered, email not sent.")
+
+
 def displayMenu():
     choice = "0"
     while choice !="4":
@@ -16,22 +30,12 @@ def displayMenu():
         match choice:
             case "1":
                 message = codeInputToAgent()
-                print(message)
-                subject, _, body_text = message.strip().partition('\n')
-                subject = subject.strip()
-                body_text = body_text.strip()
-                sendNotification.send_ntfy(subject, body_text)
-                userEmail = sendEmail.getUserEmail()
-                if userEmail:
-                    # First line of the message is the subject, everything after is the body
-                    sendEmail.send_status_email(userEmail, subject, body_text)
-                else:
-                    print("No email entered, email not sent.")
+                sendMessage(message)
 
             case "2":
                 userRepo=input("Enter Repository for agent to check for issues: ")
                 message = checkRepo.checkRepoByCode(userRepo)
-                print(message)
+                sendMessage(message)
 
             case "4":
                 exit()
