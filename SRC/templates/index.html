@@ -128,13 +128,19 @@
             transform: scale(0.98);
         }
 
-        .result-card {
-            border-color: var(--border-color);
-            background-color: var(--card-bg);
+        .result-block {
+            margin-top: 25px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 25px;
         }
 
-        .result-card h2 {
+        .result-block h3 {
             color: var(--accent);
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         pre {
@@ -165,14 +171,25 @@
             <form method="POST">
                 <input type="hidden" name="action" value="code">
                 <div class="form-group">
-                    <textarea 
-                        name="code" 
-                        placeholder="Paste your code snippet here..." 
+                    <!-- Save entered text in textarea after submission -->
+                    <label for="code-input" style="display: none;">Paste your code snippet</label>
+                    <textarea
+                        id="code-input"
+                        name="code"
+                        placeholder="Paste your code snippet here..."
                         required
-                    ></textarea>
+                    >{{ request.form.get('code', '') }}</textarea>
                 </div>
                 <button type="submit">Analyse Code</button>
             </form>
+
+            <!-- Code result appears here -->
+            {% if result and request.form.get('action') == 'code' %}
+            <div class="result-block" id="result-code">
+                <h3>🔍 Analysis Result</h3>
+                <pre>{{ result }}</pre>
+            </div>
+            {% endif %}
         </div>
 
         <!-- Check repository block -->
@@ -181,25 +198,37 @@
             <form method="POST">
                 <input type="hidden" name="action" value="repo">
                 <div class="form-group">
-                    <input 
-                        type="text" 
-                        name="repo" 
-                        placeholder="e.g. https://github.com" 
+                    <label for="repo-input" style="display: none;">GitHub repository URL</label>
+                    <input
+                        id="repo-input"
+                        type="text"
+                        name="repo"
+                        value="{{ request.form.get('repo', '') }}"
+                        placeholder="e.g. https://github.com"
                         required
                     >
                 </div>
                 <button type="submit">Analyse Repository</button>
             </form>
-        </div>
 
-        <!-- Results block (Jinja2) -->
-        {% if result %}
-        <div class="card result-card">
-            <h2>🔍 Analysis Result</h2>
-            <pre>{{ result }}</pre>
+            <!-- Repository result appears here -->
+            {% if result and request.form.get('action') == 'repo' %}
+            <div class="result-block" id="result-repo">
+                <h3>🔍 Analysis Result</h3>
+                <pre>{{ result }}</pre>
+            </div>
+            {% endif %}
         </div>
-        {% endif %}
     </div>
 
+    <!-- Script for smooth scrolling to the result -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const resultElement = document.getElementById("result-code") || document.getElementById("result-repo");
+            if (resultElement) {
+                resultElement.scrollIntoView({ behavior: "smooth", block: "center" });
+            }
+        });
+    </script>
+
 </body>
-</html>

@@ -15,7 +15,9 @@ Notifications are sent via ntfy. They use the same principle as send email. You 
 To send a notification, you need to set up NTFY_SERVER NTFY_TOPIC locally. 
 
 
-### Required libraries
+### Requirements
+
+#### Libraries
 
 In order for the project to work, you need to download those libraries using ```pip install ...```
 
@@ -24,3 +26,12 @@ gunicorn
 openai
 gitingest
 loguru
+
+#### Environmental variables
+
+To run the project, you need to set up those variables locally:
+
+NEBIUS_API_KEY
+SENDER_EMAIL
+APP_PASSWORD
+NTFY_TOPIC
