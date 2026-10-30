@@ -7,7 +7,7 @@ from pathlib import Path
 
 # Set up email configuration
 import os
-sender_email = os.environ["SENDER_EMAIL"]
+sender_email = "issueagent007@gmail.com"
 app_password = os.environ["APP_PASSWORD"]
 
 EMAIL_PATTERN = re.compile(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}$")
