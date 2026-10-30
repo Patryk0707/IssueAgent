@@ -2,6 +2,7 @@ from codeInput import codeInputToAgent
 import sendEmail
 import sendNotification
 import checkRepo
+from scanRepo import listen
 
 
 def displayMenu():
@@ -32,6 +33,9 @@ def displayMenu():
                 userRepo=input("Enter Repository for agent to check for issues: ")
                 message = checkRepo.checkRepoByCode(userRepo)
                 print(message)
+
+            case "3":
+                listen()
 
             case "4":
                 exit()
