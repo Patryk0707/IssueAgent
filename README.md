@@ -13,3 +13,14 @@ To send an email, you need to set up SENDER_EMAIL APP_PASSWORD locally.
 Notifications are sent via ntfy. They use the same principle as send email. You need to make your own topic in ntfy to be able to receive emails.
 
 To send a notification, you need to set up NTFY_SERVER NTFY_TOPIC locally. 
+
+
+### Required libraries
+
+In order for the project to work, you need to download those libraries using ```pip install ...```
+
+Flask
+gunicorn
+openai
+gitingest
+loguru
